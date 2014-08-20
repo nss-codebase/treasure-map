@@ -1,0 +1,32 @@
+extends ../shared/template
+block content
+  .row
+    .col-xs-12
+      #bigmap
+  .row
+    .col-xs-12
+      table.table.table-striped.table-hover
+        thead
+          tr
+            th: a(href='/treasures?sort=name') Name
+            th: a(href='/treasures?sort=location.address') Location
+            th: a(href='/treasures?sort=difficulty') Difficulty
+            th Tags
+            th: a(href='/treasures?sort=order') Order
+            th: a(href='/treasures?sort=isFound') Found?
+        tbody
+          each treasure in treasures
+            tr(data-name=treasure.name, data-lat=treasure.location.lat, data-lng=treasure.location.lng, data-order=treasure.order)
+              td: a(href='/treasures/#{treasure._id}')= treasure.name
+              td= treasure.location.address
+              td= treasure.difficulty
+              td!= treasure.tags.map(function(t){return '<a href="/treasures?tags='+t+'">'+t+'</a>';})
+              td= treasure.order
+              td: img(src= treasure.isFound ? '/img/yes.png' : '/img/no.png')
+  .row
+    .col-xs-12
+      #directions
+
+block scripts
+  script(src='/js/user/treasures.js')
+
