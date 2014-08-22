@@ -1,4 +1,43 @@
 extends ../shared/template
 block content
-  h2 Show
+  .row
+    .col-xs-12
+      #smlmap
+  .row
+    .col-xs-12
+      table.table.table-striped.table-hover
+        thead
+          tr
+            th Name
+            th Location
+            th Latitude
+            th Longitude
+            th Difficulty
+            th Found?
+        tbody
+          tr(data-lat=treasure.location.lat, data-lng=treasure.location.lng)
+            td= treasure.name
+            td= treasure.location.address
+            td= treasure.location.lat.toFixed(3)
+            td= treasure.location.lng.toFixed(3)
+            td= treasure.difficulty
+            td: img(src= treasure.isFound ? '/img/yes.png' : '/img/no.png')
+  .row
+    .col-xs-8
+      h3 Photographs
+      each photo in treasure.photos
+        .photo.thumbnail(style='background-image:url(#{photo});')
+    .col-xs-4
+      h3 Clues
+      ol
+        each hint in treasure.hints
+          li= hint
+  if !treasure.isFound
+    .row
+      .col-xs-12
+        form(method='post', action='/treasures/#{treasure._id}/found')
+          button.btn.btn-danger.btn-lg.btn-block Found It!
+
+block scripts
+  script(src='/js/user/show-treasure.js')
 

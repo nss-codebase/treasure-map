@@ -17,7 +17,14 @@ block content
         tbody
           each treasure in treasures
             tr(data-name=treasure.name, data-lat=treasure.location.lat, data-lng=treasure.location.lng, data-order=treasure.order)
-              td: a(href='/treasures/#{treasure._id}')= treasure.name
+              td
+                if next && (next._id.toString() === treasure._id.toString())
+                  a(href='/treasures/#{treasure._id}')= treasure.name
+                else if treasure.isFound
+                  a(href='/treasures/#{treasure._id}')
+                    img(src='/img/pirate.png')
+                else
+                  = treasure.name
               td= treasure.location.address
               td= treasure.difficulty
               td!= treasure.tags.map(function(t){return '<a href="/treasures?tags='+t+'">'+t+'</a>';})

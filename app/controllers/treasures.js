@@ -17,14 +17,23 @@ exports.create = function(req, res){
 };
 
 exports.index = function(req, res){
-  Treasure.all(req.query, function(err, treasures){
-    res.render('treasures/index', {treasures:treasures});
+  Treasure.all(req.query, function(err, treasures, next){
+    res.render('treasures/index', {treasures:treasures, next:next});
   });
 };
 
 exports.show = function(req, res){
   Treasure.findById(req.params.id, function(err, treasure){
     res.render('treasures/show', {treasure:treasure});
+  });
+};
+
+exports.found = function(req, res){
+  Treasure.findById(req.params.id, function(err, treasure){
+    treasure.isFound = true;
+    treasure.save(function(){
+      res.redirect('/treasures');
+    });
   });
 };
 

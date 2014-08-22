@@ -6,8 +6,8 @@
   var map, locations;
 
   $(document).ready(function(){
-    map = createMap('bigmap', 39, -95, 4);
     debugger;
+    map = createMap('bigmap', 39, -95, 4);
     locations = getLocations();
     locations = _.sortBy(locations, function(l){return l.order;});
 
